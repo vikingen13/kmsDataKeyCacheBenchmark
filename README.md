@@ -1,58 +1,35 @@
 
-# Welcome to your CDK Python project!
+# kmsDataKeyCacheBenchmark
 
-This is a blank project for CDK development with Python.
+kmsDataKeyCacheBenchmark is a solution to make test with Amazon S3 and AWS KMS.
+For example, you can verify if all your KMS calls are logged in CloudTrail.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This project uses AWS Cloud Development Kit (CDK).
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
-
-To manually create a virtualenv on MacOS and Linux:
-
-```
-$ python3 -m venv .venv
-```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+To deploy the solution, run the following commands:
 
 ```
 $ source .venv/bin/activate
-```
 
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
 $ pip install -r requirements.txt
+
+$ cdk deploy
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
+At this point, you are ready to make tests.
 
+## Architecture
+
+[Architecture](https://github.com/vikingen13/kmsDataKeyCacheBenchmark/archi.png)
+
+## How to make tests
+Once the project is deployed, you will be invited to execute a command similar to the following one:
 ```
-$ cdk synth
+aws stepfunctions start-execution --input "{\"waitTime\": 300}" --state-machine-arn arn:aws:states:eu-west-1:12345678:stateMachine:myKMSCacheBenchStateMachine12345678-123456789
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+This command will execute the Stepfunction. Each state machine execution will launch 10 time a lambda function that will perform a get_object on a S3 bucket with the server side encryption enabled. The waitTime parameter represents the delay in second between each of the lambda executions.
 
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+Once you executed the state machine, you can use CloudTrail to verify if KMS was correctly called to decrypt the object data key. In the solution, the s3 bucket key is enabled but you can try to change this setting to check how the behaviour differs.
 
 Enjoy!
