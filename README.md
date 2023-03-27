@@ -20,7 +20,11 @@ At this point, you are ready to make tests.
 
 ## Architecture
 
-[Architecture](https://raw.githubusercontent.com/vikingen13/kmsDataKeyCacheBenchmark/main/archi.png)
+![Architecture](https://raw.githubusercontent.com/vikingen13/kmsDataKeyCacheBenchmark/main/archi.png)
+
+Note: The GetObject Lambda is executed 10 times.
+Note: The Waiting time is an execution parameter of the StepFunction.
+Note: The GetObject Lambda get always the same object.
 
 ## How to make tests
 Once the project is deployed, you will be invited to execute a command similar to the following one:
