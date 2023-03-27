@@ -20,7 +20,7 @@ At this point, you are ready to make tests.
 
 ## Architecture
 
-[Architecture](https://github.com/vikingen13/kmsDataKeyCacheBenchmark/archi.png)
+[Architecture](https://raw.githubusercontent.com/vikingen13/kmsDataKeyCacheBenchmark/main/archi.png)
 
 ## How to make tests
 Once the project is deployed, you will be invited to execute a command similar to the following one:
